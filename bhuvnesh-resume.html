@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bhuvnesh — Full Stack Developer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --bg: #0d0d0d;
+    --surface: #141414;
+    --border: #222;
+    --text: #f0ede8;
+    --muted: #888;
+    --accent: #e8a030;
+    --accent-dim: #a06b18;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  .page {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    animation: fadeUp 0.7s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── HEADER ── */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 40px;
+    margin-bottom: 48px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: end;
+  }
+
+  .name-block h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(48px, 8vw, 80px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -2px;
+    color: var(--text);
+  }
+
+  .name-block h1 span {
+    color: var(--accent);
+  }
+
+  .title-tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 14px;
+  }
+
+  .contact-block {
+    text-align: right;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  .contact-block a {
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .contact-block a:hover { color: var(--accent); }
+
+  .tag-row {
+    display: flex;
+    gap: 8px;
+    margin-top: 18px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    background: transparent;
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    padding: 4px 10px;
+    border-radius: 2px;
+  }
+
+  /* ── LAYOUT GRID ── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: 48px;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section {
+    margin-bottom: 40px;
+  }
+
+  .section-label {
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── ABOUT ── */
+  .about-text {
+    font-size: 14px;
+    line-height: 1.85;
+    color: #ccc;
+    max-width: 520px;
+  }
+
+  /* ── PROJECTS ── */
+  .project {
+    border-left: 2px solid var(--border);
+    padding: 0 0 28px 18px;
+    margin-bottom: 0;
+    position: relative;
+    transition: border-color 0.2s;
+  }
+
+  .project:hover {
+    border-color: var(--accent);
+  }
+
+  .project::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    position: absolute;
+    left: -5px;
+    top: 6px;
+  }
+
+  .project-name {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .project-meta {
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .project-desc {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .project-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    color: var(--accent-dim);
+    text-decoration: none;
+  }
+
+  .project-link:hover { color: var(--accent); }
+
+  /* ── SIDEBAR ── */
+  .sidebar .section-label::after { display: none; }
+
+  .skill-group {
+    margin-bottom: 22px;
+  }
+
+  .skill-group-title {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .skill-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .skill-pill {
+    font-size: 11px;
+    font-family: 'DM Mono', monospace;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: #ccc;
+    padding: 3px 9px;
+    border-radius: 2px;
+  }
+
+  /* ── EDUCATION ── */
+  .edu-item {
+    margin-bottom: 16px;
+  }
+
+  .edu-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .edu-sub {
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── LINKS SIDEBAR ── */
+  .link-list a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 12px;
+    padding: 4px 0;
+    transition: color 0.2s;
+  }
+
+  .link-list a:hover { color: var(--accent); }
+
+  .link-list .link-icon {
+    width: 16px;
+    text-align: center;
+    opacity: 0.5;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 60px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 11px;
+    letter-spacing: 1px;
+  }
+
+  .avail-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #4caf82;
+  }
+
+  .avail-badge::before {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4caf82;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 32px 20px; }
+    header { grid-template-columns: 1fr; }
+    .contact-block { text-align: left; }
+    .body-grid { grid-template-columns: 1fr; }
+  }
+
+  @media print {
+    body { background: #fff; color: #111; }
+    :root { --bg: #fff; --surface: #f5f5f5; --border: #ddd; --text: #111; --muted: #555; --accent: #b07010; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="name-block">
+      <h1>BHUV<span>.</span><br>NESH</h1>
+      <p class="title-tag">Full Stack Web Developer &nbsp;·&nbsp; 1+ Year</p>
+      <div class="tag-row">
+        <span class="tag">Open to Freelance</span>
+        <span class="tag">Available for Hire</span>
+        <span class="tag">India</span>
+      </div>
+    </div>
+    <div class="contact-block">
+      <a href="mailto:bhuvnesh6115@gmail.com">bhuvnesh6115@gmail.com</a><br>
+      <a href="https://github.com/bhuvitw" target="_blank">github.com/bhuvitw</a><br>
+      <a href="https://x.com/bhuvitw" target="_blank">x.com/bhuvitw</a><br>
+      <a href="https://linkedin.com/in/bhuvnesh-918b76327" target="_blank">linkedin/bhuvnesh</a>
+    </div>
+  </header>
+
+  <!-- BODY -->
+  <div class="body-grid">
+
+    <!-- LEFT COLUMN -->
+    <main>
+
+      <!-- ABOUT -->
+      <div class="section">
+        <div class="section-label">About</div>
+        <p class="about-text">
+          Not here to "just build websites." I build tools that actually help businesses — bring in clients, make things easy, and look damn good doing it. I specialize in clean, responsive, fast websites for service-based businesses like spas, gyms, and startups. Whether it's a single-page site or a full business dashboard, I turn ideas into slick user experiences that convert.
+          <br><br>
+          I work fast, communicate clearly, and deliver clean, maintainable code. Available for freelance work & collaboration.
+        </p>
+      </div>
+
+      <!-- PROJECTS -->
+      <div class="section">
+        <div class="section-label">Projects</div>
+
+        <div class="project">
+          <div class="project-name">FlightHQ</div>
+          <div class="project-meta">JavaScript &nbsp;·&nbsp; Full Stack</div>
+          <div class="project-desc">A flight search & booking interface built with JavaScript. Focused on fast, clean UI for exploring and managing flight data.</div>
+          <a class="project-link" href="https://github.com/bhuvitw/flightHQ" target="_blank">→ github.com/bhuvitw/flightHQ</a>
+        </div>
+
+        <div class="project">
+          <div class="project-name">BrainBug Extension</div>
+          <div class="project-meta">TypeScript &nbsp;·&nbsp; Browser Extension</div>
+          <div class="project-desc">A custom browser extension built in TypeScript — enhancing the browsing experience with intelligent features right in the browser.</div>
+          <a class="project-link" href="https://github.com/bhuvitw/BrainBug-Extension" target="_blank">→ github.com/bhuvitw/BrainBug-Extension</a>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Space-Space</div>
+          <div class="project-meta">TypeScript &nbsp;·&nbsp; Web App</div>
+          <div class="project-desc">A TypeScript-powered web application demonstrating modern frontend architecture with type-safe component design.</div>
+          <a class="project-link" href="https://github.com/bhuvitw/space-space" target="_blank">→ github.com/bhuvitw/space-space</a>
+        </div>
+
+        <div class="project">
+          <div class="project-name">Personal Blog API</div>
+          <div class="project-meta">JavaScript &nbsp;·&nbsp; Backend / REST API</div>
+          <div class="project-desc">A RESTful API for a personal blogging platform. Demonstrates backend development skills including routing, data handling, and API design.</div>
+          <a class="project-link" href="https://github.com/bhuvitw/personal-blog-api" target="_blank">→ github.com/bhuvitw/personal-blog-api</a>
+        </div>
+
+        <div class="project" style="padding-bottom:0;">
+          <div class="project-name">Savvio <span style="font-size:10px;color:var(--muted)">— Contributor</span></div>
+          <div class="project-meta">TypeScript &nbsp;·&nbsp; Open Source Collaboration</div>
+          <div class="project-desc">Contributed to Savvio — a bookmark manager to save, organize, and search websites using folders, tags, and metadata previews. 7 stars on GitHub.</div>
+          <a class="project-link" href="https://github.com/sarthakitaliya/Savvio" target="_blank">→ github.com/sarthakitaliya/Savvio</a>
+        </div>
+
+      </div>
+
+      <!-- EXPERIENCE -->
+      <div class="section">
+        <div class="section-label">Experience</div>
+        <div class="project" style="padding-bottom:0;">
+          <div class="project-name">Freelance Full Stack Developer</div>
+          <div class="project-meta">Self-Employed &nbsp;·&nbsp; 2023 – Present</div>
+          <div class="project-desc">
+            Building responsive, conversion-focused websites for service-based businesses including spas, gyms, and startups. End-to-end development from UI/UX to deployment. Focused on performance, clean code, and real business outcomes.
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+
+      <!-- SKILLS -->
+      <div class="section">
+        <div class="section-label" style="font-size:10px;">Skills</div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Languages</div>
+          <div class="skill-list">
+            <span class="skill-pill">JavaScript</span>
+            <span class="skill-pill">TypeScript</span>
+            <span class="skill-pill">Java</span>
+            <span class="skill-pill">HTML</span>
+            <span class="skill-pill">CSS</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Frontend</div>
+          <div class="skill-list">
+            <span class="skill-pill">React</span>
+            <span class="skill-pill">Responsive Design</span>
+            <span class="skill-pill">Tailwind</span>
+            <span class="skill-pill">UI/UX</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Backend</div>
+          <div class="skill-list">
+            <span class="skill-pill">Node.js</span>
+            <span class="skill-pill">REST APIs</span>
+            <span class="skill-pill">Express</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">Tools</div>
+          <div class="skill-list">
+            <span class="skill-pill">Git</span>
+            <span class="skill-pill">GitHub</span>
+            <span class="skill-pill">VS Code</span>
+            <span class="skill-pill">Vercel</span>
+          </div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-title">DSA</div>
+          <div class="skill-list">
+            <span class="skill-pill">Data Structures</span>
+            <span class="skill-pill">Algorithms</span>
+            <span class="skill-pill">LeetCode</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- EDUCATION -->
+      <div class="section">
+        <div class="section-label" style="font-size:10px;">Education</div>
+        <div class="edu-item">
+          <div class="edu-title">Computer Science / Engineering</div>
+          <div class="edu-sub">University Coursework</div>
+          <div class="edu-sub" style="margin-top:4px; color:#666; font-size:11px;">Data Structures & Algorithms · Java · Full Stack Development</div>
+        </div>
+        <div class="edu-item" style="margin-top:14px;">
+          <div class="edu-title">Self-Taught</div>
+          <div class="edu-sub" style="font-size:11px; color:#666;">Continuous learning via projects, open source contribution, and building real-world applications</div>
+        </div>
+      </div>
+
+      <!-- LINKS -->
+      <div class="section">
+        <div class="section-label" style="font-size:10px;">Links</div>
+        <div class="link-list">
+          <a href="https://github.com/bhuvitw" target="_blank">
+            <span class="link-icon">⌥</span> GitHub (Main)
+          </a>
+          <a href="https://github.com/rishi6jp" target="_blank">
+            <span class="link-icon">⌥</span> GitHub (Old)
+          </a>
+          <a href="https://x.com/bhuvitw" target="_blank">
+            <span class="link-icon">𝕏</span> Twitter/X
+          </a>
+          <a href="https://linkedin.com/in/bhuvnesh-918b76327" target="_blank">
+            <span class="link-icon">in</span> LinkedIn
+          </a>
+          <a href="mailto:bhuvnesh6115@gmail.com">
+            <span class="link-icon">@</span> Email
+          </a>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="avail-badge">Available for freelance & full-time</div>
+    <div>bhuvnesh &nbsp;·&nbsp; 2025</div>
+  </footer>
+
+</div>
+</body>
+</html>
